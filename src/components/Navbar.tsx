@@ -1,10 +1,12 @@
 import { ShoppingCart, Search, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
@@ -33,7 +35,22 @@ const Navbar = () => {
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
+            {isSearchOpen && (
+              <div className="hidden md:block animate-fade-in">
+                <Input 
+                  type="search" 
+                  placeholder="Search artworks..." 
+                  className="w-64"
+                  autoFocus
+                />
+              </div>
+            )}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hidden md:flex"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
               <Search className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon">
@@ -60,6 +77,13 @@ const Navbar = () => {
 
         {isMenuOpen && (
           <nav className="md:hidden py-4 space-y-4 border-t border-border">
+            <div className="pb-4">
+              <Input 
+                type="search" 
+                placeholder="Search artworks..." 
+                className="w-full"
+              />
+            </div>
             <Link to="/" className="block text-sm font-inter font-medium text-foreground hover:text-accent">
               Home
             </Link>

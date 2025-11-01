@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.hero-swiper .swiper-pagination-bullet {
+  background: hsl(var(--accent));
+  opacity: 0.5;
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
+  background: hsl(var(--accent));
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
