@@ -4,6 +4,7 @@ import TrendingProducts from "@/components/TrendingProducts";
 import LatestCollection from "@/components/LatestCollection";
 import FeaturedArtworks from "@/components/FeaturedArtworks";
 import Categories from "@/components/Categories";
+import Blogs from "@/components/Blogs";
 import Newsletter from "@/components/Newsletter";
 import Footer from "@/components/Footer";
 
@@ -16,6 +17,7 @@ const Index = () => {
       <LatestCollection />
       <FeaturedArtworks />
       <Categories />
+      <Blogs />
       <Newsletter />
       <Footer />
     </div>

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Minus, Plus, Heart, Share2, ShoppingCart, Facebook, Twitter } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Minus, Plus, Heart, Share2, ShoppingCart, Facebook, Twitter, ZoomIn, Calendar, User, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -39,6 +40,33 @@ const relatedProducts = [
     title: "Ocean Whispers",
     price: 38.00,
     image: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?q=80&w=400"
+  }
+];
+
+const blogs = [
+  {
+    id: 1,
+    title: "How to Frame Your Artwork Professionally",
+    excerpt: "Learn the essential techniques for framing your artwork to preserve and showcase it beautifully.",
+    image: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=600",
+    author: "Michael Brown",
+    date: "March 18, 2024",
+  },
+  {
+    id: 2,
+    title: "Understanding Art Styles and Movements",
+    excerpt: "A deep dive into various art movements and how they influence contemporary design.",
+    image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968?q=80&w=600",
+    author: "Lisa Anderson",
+    date: "March 16, 2024",
+  },
+  {
+    id: 3,
+    title: "Caring for Your Art Collection",
+    excerpt: "Essential tips for maintaining and preserving your valuable art pieces for generations.",
+    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=600",
+    author: "David Park",
+    date: "March 14, 2024",
   }
 ];
 
@@ -79,32 +107,49 @@ const Product = () => {
             <div className="grid md:grid-cols-2 gap-12">
               {/* Image Gallery */}
               <div className="space-y-4">
-                <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-muted">
-                  <span className="absolute top-4 left-4 z-10 bg-destructive text-destructive-foreground text-xs font-inter font-semibold px-3 py-1 rounded-full">
-                    Save $3.00
-                  </span>
-                  <span className="absolute top-4 right-4 z-10 bg-accent text-accent-foreground text-xs font-inter font-semibold px-3 py-1 rounded-full">
-                    New
-                  </span>
-                  <img
-                    src={productImages[selectedImage]}
-                    alt="Product"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-muted cursor-zoom-in group">
+                      <span className="absolute top-4 left-4 z-10 bg-destructive text-destructive-foreground text-xs font-inter font-semibold px-3 py-1 rounded-full">
+                        Save $3.00
+                      </span>
+                      <span className="absolute top-4 right-4 z-10 bg-accent text-accent-foreground text-xs font-inter font-semibold px-3 py-1 rounded-full">
+                        New
+                      </span>
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+                        <ZoomIn className="h-12 w-12 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                      <img
+                        src={productImages[selectedImage]}
+                        alt="Product"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-5xl w-full p-0 bg-transparent border-0">
+                    <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-muted">
+                      <img
+                        src={productImages[selectedImage]}
+                        alt="Product 3D View"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </DialogContent>
+                </Dialog>
+                
                 <div className="grid grid-cols-4 gap-4">
                   {productImages.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      className={`aspect-square rounded-lg overflow-hidden border-2 transition-all group ${
                         selectedImage === index ? "border-accent" : "border-transparent"
                       }`}
                     >
                       <img
                         src={image}
                         alt={`Product ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
                     </button>
                   ))}
@@ -274,6 +319,61 @@ const Product = () => {
                     <span className="font-inter text-xl font-bold text-foreground">
                       ${product.price.toFixed(2)}
                     </span>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Blog Section */}
+        <section className="py-16 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Related Articles
+              </h2>
+              <p className="font-inter text-muted-foreground">
+                Explore more insights about art and design
+              </p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {blogs.map((blog) => (
+                <Card 
+                  key={blog.id} 
+                  className="group overflow-hidden border-border hover:shadow-xl transition-all duration-500"
+                >
+                  <div className="relative overflow-hidden aspect-[4/3] bg-muted">
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  <CardContent className="p-6 space-y-4">
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground font-inter">
+                      <div className="flex items-center gap-1">
+                        <User className="h-4 w-4" />
+                        <span>{blog.author}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>{blog.date}</span>
+                      </div>
+                    </div>
+                    <h3 className="font-playfair text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+                      {blog.title}
+                    </h3>
+                    <p className="font-inter text-muted-foreground leading-relaxed">
+                      {blog.excerpt}
+                    </p>
+                    <Button 
+                      variant="link" 
+                      className="p-0 h-auto font-inter font-semibold text-accent hover:gap-2 transition-all group/btn"
+                    >
+                      Read More 
+                      <ArrowRight className="h-4 w-4 ml-1 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
